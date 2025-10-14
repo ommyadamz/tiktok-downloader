@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Video Downloader - Download Bila Watermark | Free & Fast</title>
+    <meta name="description" content="Download TikTok videos without watermark for free. Fast, easy, and safe. Works on mobile and desktop.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+
+        .download-section {
+            max-width: 900px;
+            margin: -80px auto 60px;
+            padding: 0 20px;
+        }
+
+        .download-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .video-preview {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .video-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .video-thumbnail {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .video-details {
+            flex: 1;
+        }
+
+        .video-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .video-meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .download-options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .download-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .download-option:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .option-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .download-link {
+            padding: 10px 25px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .download-link:hover {
+            background: #764ba2;
+        }
+
+        .download-link:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            display: none;
+            padding: 15px;
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 8px;
+            color: #c33;
+            margin-top: 15px;
+        }
+
+        .features-section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .howto-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .howto-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .howto-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .faq-section {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .faq-item h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .faq-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            background: #f5f7fa;
+            padding: 80px 20px;
+        }
+
+        .contact-content {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .contact-intro {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 50px;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-item {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .contact-item h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .contact-item p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .contact-form-wrapper {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .form-success {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .form-success h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .form-success p {
+            color: #666;
+        }
+
+        .footer {
+            background: #2c3e7a;
+            color: white;
+            padding: 50px 20px 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            margin-bottom: 35px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+            font-size: 15px;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .footer-disclaimer {
+            margin-bottom: 30px;
+            opacity: 0.85;
+        }
+
+        .footer-disclaimer p {
+            margin: 8px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-copyright {
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .footer-copyright p {
+            margin: 5px 0;
+            font-size: 13px;
+        }
+
+        .admin-link {
+            margin-top: 20px;
+            opacity: 0.4;
+        }
+
+        .admin-link a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            transition: opacity 0.3s;
+        }
+
+        .admin-link a:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .video-info {
+                flex-direction: column;
+            }
+
+            .footer-links a {
+                display: inline-block;
+                margin: 10px 15px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .contact-form-wrapper {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">🎵 TikTok Downloader</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#howto">How to Use</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Download TikTok Videos</h1>
+        <p>Save TikTok videos without watermark - Fast, Free & Easy!</p>
+    </div>
+
+    <div class="download-section">
+        <div class="download-card">
+            <input
+                type="text"
+                class="url-input"
+                id="videoUrl"
+                placeholder="Paste your link here... (https://www.tiktok.com/...)"
+            >
+            <button class="download-btn" id="downloadBtn" onclick="processVideo()">
+                📥 Download Video
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; color: #666;">Inapakua video...</p>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="result-section" id="resultSection">
+                <div class="video-preview">
+                    <div class="video-info">
+                        <img id="thumbnail" class="video-thumbnail" src="" alt="Video thumbnail">
+                        <div class="video-details">
+                            <div class="video-title" id="videoTitle"></div>
+                            <div class="video-meta">👤 <span id="author"></span></div>
+                            <div class="video-meta">❤️ <span id="likes"></span> | 💬 <span id="comments"></span> | 🔄 <span id="shares"></span></div>
+                            <div class="video-meta">⏱️ <span id="duration"></span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="download-options" id="downloadOptions"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="features-section" id="features">
+        <h2 class="section-title">Why Choose Our TikTok Downloader?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Unlimited</h3>
+                <p>Save TikTok videos as much as you need - without any limits.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>No Watermark!</h3>
+                <p>Download TikTok video in mp4 or remove a TT logo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎬</div>
+                <h3>MP4 and MP3</h3>
+                <p>Save files in HD quality, convert TikTok to mp4 or mp3.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Super Fast</h3>
+                <p>Download videos in seconds. Quick and efficient processing.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🆓</div>
+                <h3>100% Free</h3>
+                <p>No hidden fees, no subscriptions. Completely free forever.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>All Devices</h3>
+                <p>Works on mobile phones, tablets, and desktop computers.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="howto-section" id="howto">
+        <div class="howto-content">
+            <h2 class="howto-title">How to download TikTok without watermark?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Find a TT</h3>
+                    <p>Open the TikTok app on your mobile device. Scroll to find the video you'd like to save. Click the "Share" button and tap "Copy link".</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Paste the link</h3>
+                    <p>Go back to our website and paste the TikTok video link into the input field above. Click the "Download Video" button.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Download video</h3>
+                    <p>Wait a few seconds for processing. Choose your preferred quality and click download. Your video is ready!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-section" id="faq">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <h3>❓ Is this TikTok downloader free?</h3>
+            <p>Yes! Our TikTok downloader is 100% free. There are no hidden fees, subscriptions, or limitations. You can download as many videos as you want.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>❓ Can I download TikTok videos without watermark?</h3>
+            <p>Absolutely! Our service allows you to download TikTok videos without the TikTok watermark in high quality.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>❓ Does this work on mobile phones?</h3>
+            <p>Yes! Our TikTok downloader works on all devices including smartphones (Android & iOS), tablets, and computers.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>❓ Do I need to install any software?</h3>
+            <p>No installation required! Our service is completely web-based. Just paste the link and download your video directly from the browser.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>❓ What video quality can I download?</h3>
+            <p>You can download TikTok videos in their original quality, typically HD quality (720p or 1080p depending on the original upload).</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>❓ Can I download private TikTok videos?</h3>
+            <p>No, you can only download public TikTok videos. Private videos are protected and cannot be downloaded through any service.</p>
+        </div>
+    </div>
+
+    <div class="contact-section" id="contact">
+        <div class="contact-content">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="contact-intro">Have questions or need help? Get in touch with us!</p>
+
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>support@tiktokdownloader.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">💬</div>
+                        <div>
+                            <h3>Live Chat</h3>
+                            <p>Available 24/7 for instant support</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">⏰</div>
+                        <div>
+                            <h3>Response Time</h3>
+                            <p>Usually within 24 hours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required placeholder="What is this about?">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Your message here..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+
+                    <div class="form-success" id="formSuccess" style="display: none;">
+                        <div style="font-size: 50px; margin-bottom: 15px;">✅</div>
+                        <h3>Message Sent!</h3>
+                        <p>Thank you for contacting us. We'll get back to you soon.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#features">Features</a>
+                <a href="#howto">How to Use</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <div class="footer-disclaimer">
+                <p>We are not affiliated with TikTok, Douyin or Bytedance.</p>
+                <p>Created by TikTok downloader team - video downloading experts since 2022.</p>
+            </div>
+
+            <div class="footer-copyright">
+                <p>Copyright 2024-2025</p>
+            </div>
+
+            <div class="admin-link">
+                <a href="/admin/login">Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function processVideo() {
+            const urlInput = document.getElementById('videoUrl');
+            const url = urlInput.value.trim();
+
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+
+            if (!url) {
+                showError('Tafadhali weka link ya TikTok video!');
+                return;
+            }
+
+            if (!url.includes('tiktok.com')) {
+                showError('Link si sahihi! Tumia link ya TikTok tu.');
+                return;
+            }
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('downloadBtn').disabled = true;
+
+            try {
+                const response = await fetch('/api/download', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: url })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data.data);
+                } else {
+                    showError(data.message || 'Kuna hitilafu! Jaribu tena.');
+                }
+            } catch (error) {
+                showError('Kuna tatizo la mtandao! Jaribu tena baadaye.');
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('downloadBtn').disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            const thumbnailImg = document.getElementById('thumbnail');
+            const thumbnailUrl = data.thumbnail || 'https://via.placeholder.com/120/667eea/ffffff?text=TikTok';
+
+            thumbnailImg.src = thumbnailUrl;
+            thumbnailImg.onerror = function() {
+                this.src = 'https://via.placeholder.com/120/667eea/ffffff?text=TikTok+Video';
+                this.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            };
+
+            document.getElementById('videoTitle').textContent = data.title || 'TikTok Video';
+            document.getElementById('author').textContent = data.author || 'Unknown';
+            document.getElementById('likes').textContent = formatNumber(data.likes || 0);
+            document.getElementById('comments').textContent = formatNumber(data.comments || 0);
+            document.getElementById('shares').textContent = formatNumber(data.shares || 0);
+            document.getElementById('duration').textContent = data.duration || '0:00';
+
+            const optionsContainer = document.getElementById('downloadOptions');
+            optionsContainer.innerHTML = '';
+
+            if (data.videoWithWatermark) {
+                optionsContainer.innerHTML += createDownloadOption(
+                    '🎬',
+                    'Video na Watermark',
+                    'HD Quality',
+                    data.videoWithWatermark,
+                    'video_watermark.mp4'
+                );
+            }
+
+            if (data.videoNoWatermark) {
+                optionsContainer.innerHTML += createDownloadOption(
+                    '✨',
+                    'Video bila Watermark',
+                    'HD Quality - Recommended',
+                    data.videoNoWatermark,
+                    'video_no_watermark.mp4'
+                );
+            }
+
+            if (data.audio) {
+                optionsContainer.innerHTML += createDownloadOption(
+                    '🎵',
+                    'Audio Only (MP3)',
+                    'Audio track from video',
+                    data.audio,
+                    'audio.mp3'
+                );
+            }
+
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function createDownloadOption(icon, title, description, url, filename) {
+            const proxyUrl = `/api/proxy-download?url=${encodeURIComponent(url)}`;
+
+            return `
+                <div class="download-option">
+                    <div class="option-info">
+                        <div class="option-icon">${icon}</div>
+                        <div>
+                            <h4 style="margin-bottom: 3px;">${title}</h4>
+                            <p style="font-size: 13px; color: #666;">${description}</p>
+                        </div>
+                    </div>
+                    <a href="${proxyUrl}" download="${filename}" class="download-link">Download</a>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        document.getElementById('videoUrl').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') processVideo();
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            // Simulate sending (replace with actual API call later)
+            setTimeout(() => {
+                document.getElementById('contactForm').style.display = 'none';
+                document.getElementById('formSuccess').style.display = 'block';
+
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    document.getElementById('contactForm').reset();
+                    document.getElementById('contactForm').style.display = 'flex';
+                    document.getElementById('formSuccess').style.display = 'none';
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 3000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
