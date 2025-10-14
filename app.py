@@ -1,6 +1,6 @@
 """
 TikTok Video Downloader - COMPLETE BACKEND WITH PROXY
-Version: 1.0.0 FINAL WITH PROXY
+Version: 1.0.1 FIXED FOR RENDER
 Copy this ENTIRE file to: app.py
 """
 
@@ -106,6 +106,20 @@ def create_default_admin():
         print("   ⚠️  CHANGE THIS PASSWORD AFTER FIRST LOGIN!")
 
     conn.close()
+
+
+# AUTO-INITIALIZE DATABASE ON STARTUP (CRITICAL FOR RENDER!)
+def auto_init_database():
+    """Initialize database automatically when app starts"""
+    try:
+        init_database()
+        create_default_admin()
+        print("✅ Database auto-initialized on startup")
+    except Exception as e:
+        print(f"⚠️ Database initialization error: {e}")
+
+# Run initialization immediately
+auto_init_database()
 
 
 def log_download(video_url, video_id, title, author):
@@ -890,10 +904,6 @@ if __name__ == '__main__':
     print("\n" + "=" * 60)
     print("🚀 STARTING TIKTOK VIDEO DOWNLOADER WITH PROXY")
     print("=" * 60 + "\n")
-
-    # Initialize database and admin
-    init_database()
-    create_default_admin()
 
     port = int(os.getenv('PORT', 5000))
 
