@@ -380,147 +380,6 @@
             line-height: 1.6;
         }
 
-        .contact-section {
-            background: #f5f7fa;
-            padding: 80px 20px;
-        }
-
-        .contact-content {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .contact-intro {
-            text-align: center;
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 50px;
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 50px;
-            align-items: start;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .contact-item {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .contact-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            flex-shrink: 0;
-        }
-
-        .contact-item h3 {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .contact-item p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .contact-form-wrapper {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .submit-btn {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .form-success {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .form-success h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        .form-success p {
-            color: #666;
-        }
-
         .footer {
             background: #2c3e7a;
             color: white;
@@ -572,22 +431,6 @@
             font-size: 13px;
         }
 
-        .admin-link {
-            margin-top: 20px;
-            opacity: 0.4;
-        }
-
-        .admin-link a {
-            color: white;
-            text-decoration: none;
-            font-size: 12px;
-            transition: opacity 0.3s;
-        }
-
-        .admin-link a:hover {
-            opacity: 1;
-        }
-
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2em;
@@ -609,15 +452,6 @@
                 display: inline-block;
                 margin: 10px 15px;
             }
-
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .contact-form-wrapper {
-                padding: 25px;
-            }
         }
     </style>
 </head>
@@ -629,7 +463,6 @@
                 <a href="#features">Features</a>
                 <a href="#howto">How to Use</a>
                 <a href="#faq">FAQ</a>
-                <a href="#contact">Contact</a>
             </div>
         </div>
     </nav>
@@ -769,80 +602,12 @@
         </div>
     </div>
 
-    <div class="contact-section" id="contact">
-        <div class="contact-content">
-            <h2 class="section-title">Contact Us</h2>
-            <p class="contact-intro">Have questions or need help? Get in touch with us!</p>
-
-            <div class="contact-container">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <div>
-                            <h3>Email</h3>
-                            <p>support@tiktokdownloader.com</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">💬</div>
-                        <div>
-                            <h3>Live Chat</h3>
-                            <p>Available 24/7 for instant support</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">⏰</div>
-                        <div>
-                            <h3>Response Time</h3>
-                            <p>Usually within 24 hours</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-form-wrapper">
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required placeholder="Enter your name">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" required placeholder="What is this about?">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required placeholder="Your message here..."></textarea>
-                        </div>
-
-                        <button type="submit" class="submit-btn">Send Message</button>
-                    </form>
-
-                    <div class="form-success" id="formSuccess" style="display: none;">
-                        <div style="font-size: 50px; margin-bottom: 15px;">✅</div>
-                        <h3>Message Sent!</h3>
-                        <p>Thank you for contacting us. We'll get back to you soon.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="footer">
         <div class="footer-content">
             <div class="footer-links">
                 <a href="#features">Features</a>
                 <a href="#howto">How to Use</a>
                 <a href="#faq">FAQ</a>
-                <a href="#contact">Contact</a>
             </div>
 
             <div class="footer-disclaimer">
@@ -852,10 +617,6 @@
 
             <div class="footer-copyright">
                 <p>Copyright 2024-2025</p>
-            </div>
-
-            <div class="admin-link">
-                <a href="/admin/login">Admin</a>
             </div>
         </div>
     </div>
@@ -1001,31 +762,6 @@
                     target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
-        });
-
-        // Contact form handling
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            // Simulate sending (replace with actual API call later)
-            setTimeout(() => {
-                document.getElementById('contactForm').style.display = 'none';
-                document.getElementById('formSuccess').style.display = 'block';
-
-                // Reset form after 3 seconds
-                setTimeout(() => {
-                    document.getElementById('contactForm').reset();
-                    document.getElementById('contactForm').style.display = 'flex';
-                    document.getElementById('formSuccess').style.display = 'none';
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }, 3000);
-            }, 1000);
         });
     </script>
 </body>
