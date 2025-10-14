@@ -131,34 +131,6 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table thead {
-            background: #f8f9fa;
-        }
-
-        table th {
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-            color: #555;
-            font-size: 14px;
-        }
-
-        table td {
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            color: #666;
-            font-size: 14px;
-        }
-
-        table tr:hover {
-            background: #f8f9fa;
-        }
-
         .loading {
             text-align: center;
             padding: 40px;
@@ -190,101 +162,55 @@
             margin-bottom: 15px;
         }
 
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead {
+            background: #f8f9fa;
+        }
+
+        table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #666;
+            font-size: 14px;
+        }
+
         .badge {
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 12px;
             font-weight: 600;
-        }
-
-        .badge.success {
             background: #d4edda;
             color: #155724;
-        }
-
-        .badge.warning {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .tab {
-            padding: 12px 24px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .settings-form {
-            max-width: 500px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #555;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .message {
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
         }
 
         @media (max-width: 768px) {
@@ -295,14 +221,6 @@
 
             .stats-grid {
                 grid-template-columns: 1fr;
-            }
-
-            table {
-                font-size: 12px;
-            }
-
-            table th, table td {
-                padding: 8px;
             }
         }
     </style>
@@ -317,161 +235,110 @@
     </div>
 
     <div class="container">
-        <!-- Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="icon">📥</div>
-                <h3>Total Downloads</h3>
-                <div class="value" id="totalDownloads">-</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="icon">👥</div>
-                <h3>Total Users</h3>
-                <div class="value" id="totalUsers">-</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="icon">📅</div>
-                <h3>Today's Downloads</h3>
-                <div class="value" id="todayDownloads">-</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="icon">🎬</div>
-                <h3>Unique Videos</h3>
-                <div class="value" id="uniqueVideos">-</div>
-            </div>
+        <div id="authError" style="display: none;" class="error-message">
+            Authentication failed. Please <a href="/admin-Nembotech/login">login again</a>.
         </div>
 
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('overview')">📊 Overview</button>
-            <button class="tab" onclick="switchTab('downloads')">📥 Downloads</button>
-            <button class="tab" onclick="switchTab('analytics')">📈 Analytics</button>
-            <button class="tab" onclick="switchTab('settings')">⚙️ Settings</button>
-        </div>
+        <div id="mainContent">
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon">📥</div>
+                    <h3>Total Downloads</h3>
+                    <div class="value" id="totalDownloads">-</div>
+                </div>
 
-        <!-- Tab Content: Overview -->
-        <div id="overview" class="tab-content active">
+                <div class="stat-card">
+                    <div class="icon">👥</div>
+                    <h3>Total Users</h3>
+                    <div class="value" id="totalUsers">-</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="icon">📅</div>
+                    <h3>Today's Downloads</h3>
+                    <div class="value" id="todayDownloads">-</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="icon">🎬</div>
+                    <h3>Top Videos</h3>
+                    <div class="value" id="topVideosCount">-</div>
+                </div>
+            </div>
+
+            <!-- Top Videos Section -->
             <div class="section">
                 <div class="section-header">
-                    <h2>🔥 Top Videos</h2>
-                    <button class="action-btn" onclick="refreshData()">🔄 Refresh</button>
+                    <h2>🔥 Top Downloaded Videos</h2>
+                    <button class="action-btn" onclick="loadData()">🔄 Refresh</button>
                 </div>
                 <div id="topVideosContent">
                     <div class="loading">
                         <div class="spinner"></div>
-                        <p>Loading data...</p>
+                        <p>Loading statistics...</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Tab Content: Downloads -->
-        <div id="downloads" class="tab-content">
+            <!-- Quick Actions -->
             <div class="section">
                 <div class="section-header">
-                    <h2>📥 Recent Downloads</h2>
-                    <button class="action-btn" onclick="loadDownloads()">🔄 Refresh</button>
+                    <h2>⚡ Quick Actions</h2>
                 </div>
-                <div id="downloadsContent">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <p>Loading downloads...</p>
-                    </div>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="action-btn" onclick="clearCache()">🗑️ Clear Cache</button>
+                    <button class="action-btn" onclick="window.location.href='/'">🏠 View Site</button>
+                    <button class="action-btn" onclick="showChangePassword()">🔒 Change Password</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Tab Content: Analytics -->
-        <div id="analytics" class="tab-content">
-            <div class="section">
+            <!-- Change Password Section -->
+            <div id="changePasswordSection" class="section" style="display: none;">
                 <div class="section-header">
-                    <h2>📈 Analytics</h2>
-                    <button class="action-btn" onclick="loadAnalytics()">🔄 Refresh</button>
+                    <h2>🔒 Change Password</h2>
+                    <button class="action-btn" onclick="hideChangePassword()" style="background: #999;">✕ Close</button>
                 </div>
-                <div id="analyticsContent">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <p>Loading analytics...</p>
+                <div id="passwordMessage" style="display: none;"></div>
+                <form id="changePasswordForm" style="max-width: 400px;">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Current Password</label>
+                        <input type="password" id="oldPassword" required style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab Content: Settings -->
-        <div id="settings" class="tab-content">
-            <div class="section">
-                <div class="section-header">
-                    <h2>⚙️ Account Settings</h2>
-                </div>
-
-                <div class="message" id="settingsMessage"></div>
-
-                <div class="settings-form">
-                    <h3 style="margin-bottom: 20px; color: #333;">Change Password</h3>
-
-                    <form id="changePasswordForm">
-                        <div class="form-group">
-                            <label for="old_password">Current Password</label>
-                            <input type="password" id="old_password" name="old_password" required placeholder="Enter current password">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="new_password">New Password</label>
-                            <input type="password" id="new_password" name="new_password" required placeholder="Enter new password (min 8 characters)">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="confirm_password">Confirm New Password</label>
-                            <input type="password" id="confirm_password" name="confirm_password" required placeholder="Confirm new password">
-                        </div>
-
-                        <button type="submit" class="action-btn">🔒 Change Password</button>
-                    </form>
-                </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">New Password</label>
+                        <input type="password" id="newPassword" required minlength="8" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" required style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                    </div>
+                    <button type="submit" class="action-btn">💾 Save New Password</button>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
-        // Auth check
+        // Get token - NO AUTO REDIRECT!
         const token = localStorage.getItem('admin_token');
+
+        // Simple check - if no token, show message but DON'T redirect
         if (!token) {
-            window.location.href = '/admin-Nembotech/login';
+            document.getElementById('authError').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'none';
+        } else {
+            // Load data immediately
+            loadData();
         }
 
-        // Verify token on load
-        async function verifyToken() {
-            try {
-                const response = await fetch('/api/admin/verify', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                const data = await response.json();
-
-                if (!data.success) {
-                    localStorage.removeItem('admin_token');
-                    window.location.href = '/admin-Nembotech/login';
-                    return;
-                }
-
-                document.getElementById('adminUsername').textContent = `👤 ${data.username || 'Admin'}`;
-                loadStats();
-                loadTopVideos();
-            } catch (error) {
-                console.error('Auth error:', error);
-                localStorage.removeItem('admin_token');
-                window.location.href = '/admin-Nembotech/login';
+        // Load data function
+        async function loadData() {
+            if (!token) {
+                console.log('No token available');
+                return;
             }
-        }
 
-        // Load stats
-        async function loadStats() {
             try {
                 const response = await fetch('/api/admin/stats', {
                     headers: {
@@ -482,130 +349,103 @@
                 const data = await response.json();
 
                 if (data.success) {
+                    // Update stats
                     document.getElementById('totalDownloads').textContent = data.stats.total_downloads.toLocaleString();
                     document.getElementById('totalUsers').textContent = data.stats.total_users.toLocaleString();
                     document.getElementById('todayDownloads').textContent = data.stats.downloads_today.toLocaleString();
-                    document.getElementById('uniqueVideos').textContent = data.stats.top_videos.length;
+                    document.getElementById('topVideosCount').textContent = data.stats.top_videos.length;
+
+                    // Display top videos
+                    displayTopVideos(data.stats.top_videos);
+                } else {
+                    throw new Error('Failed to load stats');
                 }
             } catch (error) {
-                console.error('Stats error:', error);
+                console.error('Load data error:', error);
+                document.getElementById('topVideosContent').innerHTML = `
+                    <div class="error-message">
+                        Failed to load data. Token may be invalid.
+                        <a href="/admin-Nembotech/login">Please login again</a>.
+                    </div>
+                `;
             }
         }
 
-        // Load top videos
-        async function loadTopVideos() {
+        // Display top videos
+        function displayTopVideos(videos) {
+            const container = document.getElementById('topVideosContent');
+
+            if (videos.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📭</div>
+                        <p>No downloads yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<table><thead><tr><th>Title</th><th>Author</th><th>Downloads</th></tr></thead><tbody>';
+
+            videos.forEach(video => {
+                html += `
+                    <tr>
+                        <td>${video.title || 'Untitled'}</td>
+                        <td>${video.author || 'Unknown'}</td>
+                        <td><span class="badge">${video.count}</span></td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // Clear cache
+        async function clearCache() {
+            if (!token) return;
+
             try {
-                const response = await fetch('/api/admin/stats', {
+                const response = await fetch('/api/clear-cache', {
+                    method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
 
                 const data = await response.json();
-
-                if (data.success && data.stats.top_videos.length > 0) {
-                    let html = '<table><thead><tr><th>Title</th><th>Author</th><th>Downloads</th></tr></thead><tbody>';
-
-                    data.stats.top_videos.forEach(video => {
-                        html += `
-                            <tr>
-                                <td>${video.title || 'Untitled'}</td>
-                                <td>${video.author || 'Unknown'}</td>
-                                <td><span class="badge success">${video.count}</span></td>
-                            </tr>
-                        `;
-                    });
-
-                    html += '</tbody></table>';
-                    document.getElementById('topVideosContent').innerHTML = html;
-                } else {
-                    document.getElementById('topVideosContent').innerHTML = `
-                        <div class="empty-state">
-                            <div class="icon">📭</div>
-                            <p>No downloads yet</p>
-                        </div>
-                    `;
-                }
+                alert(data.message || 'Cache cleared!');
             } catch (error) {
-                console.error('Load error:', error);
+                alert('Failed to clear cache');
             }
         }
 
-        // Load downloads
-        async function loadDownloads() {
-            document.getElementById('downloadsContent').innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading...</p></div>';
-
-            // Implement download loading here
-            setTimeout(() => {
-                document.getElementById('downloadsContent').innerHTML = `
-                    <div class="empty-state">
-                        <div class="icon">📥</div>
-                        <p>Recent downloads will appear here</p>
-                    </div>
-                `;
-            }, 1000);
+        // Show/hide change password
+        function showChangePassword() {
+            document.getElementById('changePasswordSection').style.display = 'block';
         }
 
-        // Load analytics
-        async function loadAnalytics() {
-            document.getElementById('analyticsContent').innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading...</p></div>';
-
-            // Implement analytics loading here
-            setTimeout(() => {
-                document.getElementById('analyticsContent').innerHTML = `
-                    <div class="empty-state">
-                        <div class="icon">📊</div>
-                        <p>Analytics data will appear here</p>
-                    </div>
-                `;
-            }, 1000);
-        }
-
-        // Switch tabs
-        function switchTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            // Remove active from all tab buttons
-            document.querySelectorAll('.tab').forEach(button => {
-                button.classList.remove('active');
-            });
-
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-
-            // Load data for specific tabs
-            if (tabName === 'downloads') {
-                loadDownloads();
-            } else if (tabName === 'analytics') {
-                loadAnalytics();
-            }
-        }
-
-        // Refresh data
-        function refreshData() {
-            loadStats();
-            loadTopVideos();
+        function hideChangePassword() {
+            document.getElementById('changePasswordSection').style.display = 'none';
+            document.getElementById('changePasswordForm').reset();
+            document.getElementById('passwordMessage').style.display = 'none';
         }
 
         // Change password form
         document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const oldPassword = document.getElementById('old_password').value;
-            const newPassword = document.getElementById('new_password').value;
-            const confirmPassword = document.getElementById('confirm_password').value;
+            const oldPassword = document.getElementById('oldPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
 
             if (newPassword !== confirmPassword) {
-                showMessage('Passwords do not match', 'error');
+                showPasswordMessage('Passwords do not match', 'error');
                 return;
             }
 
             if (newPassword.length < 8) {
-                showMessage('Password must be at least 8 characters', 'error');
+                showPasswordMessage('Password must be at least 8 characters', 'error');
                 return;
             }
 
@@ -625,41 +465,30 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    showMessage('Password changed successfully!', 'success');
-                    document.getElementById('changePasswordForm').reset();
-
-                    // Redirect to login after 2 seconds
+                    showPasswordMessage('Password changed! Logging out...', 'success');
                     setTimeout(() => {
                         logout();
                     }, 2000);
                 } else {
-                    showMessage(data.message || 'Failed to change password', 'error');
+                    showPasswordMessage(data.message || 'Failed to change password', 'error');
                 }
             } catch (error) {
-                showMessage('Network error. Please try again.', 'error');
-                console.error('Error:', error);
+                showPasswordMessage('Network error', 'error');
             }
         });
 
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('settingsMessage');
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type}`;
-            messageDiv.style.display = 'block';
-
-            setTimeout(() => {
-                messageDiv.style.display = 'none';
-            }, 5000);
+        function showPasswordMessage(text, type) {
+            const msg = document.getElementById('passwordMessage');
+            msg.className = type === 'success' ? 'success-message' : 'error-message';
+            msg.textContent = text;
+            msg.style.display = 'block';
         }
 
-        // Logout
+        // Logout - SIMPLE, NO CHECKS
         function logout() {
             localStorage.removeItem('admin_token');
             window.location.href = '/admin-Nembotech/login';
         }
-
-        // Initialize
-        verifyToken();
     </script>
 </body>
 </html>
