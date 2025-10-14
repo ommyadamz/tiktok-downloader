@@ -1,10 +1,11 @@
 """
-TikTok Video Downloader - COMPLETE BACKEND WITH PROXY
-Version: 1.0.1 FIXED FOR RENDER
-Copy this ENTIRE file to: app.py
+TikTok Video Downloader - SECURE VERSION WITH PASSWORD RECOVERY
+Version: 2.0.0 - PRODUCTION READY
+Admin URL: /admin-Nembotech
+Features: Password Recovery via Email
 """
 
-from flask import Flask, request, jsonify, render_template, Response
+from flask import Flask, request, jsonify, render_template, Response, url_for
 from flask_cors import CORS
 import requests
 import re
@@ -18,6 +19,10 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import warnings
+import secrets
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 warnings.filterwarnings('ignore')
 
@@ -27,11 +32,152 @@ CORS(app)
 # Configuration
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'change-this-secret-key-now-abc123xyz')
 app.config['MAX_REQUESTS_PER_HOUR'] = 100
+app.config['ADMIN_EMAIL'] = 'ommytech97@gmail.com'
+app.config['SMTP_SERVER'] = 'smtp.gmail.com'
+app.config['SMTP_PORT'] = 587
+app.config['SMTP_EMAIL'] = os.getenv('SMTP_EMAIL', 'ommytech97@gmail.com')
+app.config['SMTP_PASSWORD'] = os.getenv('SMTP_PASSWORD', '')  # Gmail App Password
 
 # Cache and rate limiting storage
 cache = {}
-cache_timeout = 300  # 5 minutes
+cache_timeout = 300
 rate_limit_storage = {}
+
+# Password reset tokens storage (in production, use Redis or database)
+reset_tokens = {}
+
+
+# ==================== EMAIL FUNCTIONS ====================
+
+def send_email(to_email, subject, html_content):
+    """Send email via Gmail SMTP"""
+    try:
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = subject
+        msg['From'] = app.config['SMTP_EMAIL']
+        msg['To'] = to_email
+
+        html_part = MIMEText(html_content, 'html')
+        msg.attach(html_part)
+
+        server = smtplib.SMTP(app.config['SMTP_SERVER'], app.config['SMTP_PORT'])
+        server.starttls()
+        server.login(app.config['SMTP_EMAIL'], app.config['SMTP_PASSWORD'])
+        server.send_message(msg)
+        server.quit()
+
+        print(f"✅ Email sent to {to_email}")
+        return True
+    except Exception as e:
+        print(f"❌ Email error: {e}")
+        return False
+
+
+def generate_reset_token():
+    """Generate secure reset token"""
+    return secrets.token_urlsafe(32)
+
+
+def get_password_reset_email_html(reset_link, username):
+    """Generate password reset email HTML"""
+    return f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            body {{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f5f7fa;
+                margin: 0;
+                padding: 20px;
+            }}
+            .container {{
+                max-width: 600px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }}
+            .header {{
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 40px 20px;
+                text-align: center;
+                color: white;
+            }}
+            .header h1 {{
+                margin: 0;
+                font-size: 28px;
+            }}
+            .content {{
+                padding: 40px 30px;
+            }}
+            .content h2 {{
+                color: #333;
+                margin-bottom: 20px;
+            }}
+            .content p {{
+                color: #666;
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }}
+            .button {{
+                display: inline-block;
+                padding: 15px 40px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 600;
+                margin: 20px 0;
+            }}
+            .footer {{
+                background: #f8f9fa;
+                padding: 20px;
+                text-align: center;
+                color: #999;
+                font-size: 14px;
+            }}
+            .warning {{
+                background: #fff3cd;
+                border-left: 4px solid #ffc107;
+                padding: 15px;
+                margin: 20px 0;
+                color: #856404;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🔐 Password Reset Request</h1>
+            </div>
+            <div class="content">
+                <h2>Hello {username},</h2>
+                <p>We received a request to reset your password for your TikTok Downloader admin account.</p>
+                <p>Click the button below to reset your password:</p>
+                <center>
+                    <a href="{reset_link}" class="button">Reset Password</a>
+                </center>
+                <div class="warning">
+                    <strong>⚠️ Security Notice:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>This link expires in 1 hour</li>
+                        <li>If you didn't request this, ignore this email</li>
+                        <li>Never share this link with anyone</li>
+                    </ul>
+                </div>
+                <p>Or copy and paste this link into your browser:</p>
+                <p style="word-break: break-all; color: #667eea; font-size: 14px;">{reset_link}</p>
+            </div>
+            <div class="footer">
+                <p>TikTok Video Downloader - Admin Panel</p>
+                <p>This is an automated email. Please do not reply.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
 
 
 # ==================== DATABASE FUNCTIONS ====================
@@ -98,7 +244,7 @@ def create_default_admin():
         password_hash = generate_password_hash('admin123')
         c.execute('''INSERT INTO admins (username, password_hash, email) 
                     VALUES (?, ?, ?)''',
-                  ('admin', password_hash, 'admin@tiktokdownloader.com'))
+                  ('admin', password_hash, 'ommytech97@gmail.com'))
         conn.commit()
         print("✅ Default admin created!")
         print("   Username: admin")
@@ -108,7 +254,7 @@ def create_default_admin():
     conn.close()
 
 
-# AUTO-INITIALIZE DATABASE ON STARTUP (CRITICAL FOR RENDER!)
+# AUTO-INITIALIZE DATABASE ON STARTUP
 def auto_init_database():
     """Initialize database automatically when app starts"""
     try:
@@ -118,7 +264,7 @@ def auto_init_database():
     except Exception as e:
         print(f"⚠️ Database initialization error: {e}")
 
-# Run initialization immediately
+
 auto_init_database()
 
 
@@ -303,7 +449,6 @@ def download_with_ssstik(url):
 
             result = {'success': True, 'data': {}}
 
-            # Find download links
             download_links = soup.find_all('a')
             for link in download_links:
                 href = link.get('href', '')
@@ -316,17 +461,14 @@ def download_with_ssstik(url):
                 elif 'audio' in text or 'mp3' in text:
                     result['data']['audio'] = href
 
-            # Extract thumbnail
             thumbnail = soup.find('img', {'class': 'result_thumbnail'})
             if thumbnail:
                 result['data']['thumbnail'] = thumbnail.get('src', '')
 
-            # Extract title
             title = soup.find('p', {'class': 'maintext'})
             if title:
                 result['data']['title'] = title.get_text().strip()
 
-            # Extract author
             author = soup.find('h2')
             if author:
                 result['data']['author'] = author.get_text().strip()
@@ -348,16 +490,28 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/admin/login')
+@app.route('/admin-Nembotech/login')
 def admin_login_page():
-    """Admin login page"""
+    """Admin login page - SECURE URL"""
     return render_template('admin_login.html')
 
 
-@app.route('/admin')
+@app.route('/admin-Nembotech')
 def admin_dashboard():
-    """Admin dashboard page"""
+    """Admin dashboard page - SECURE URL"""
     return render_template('admin.html')
+
+
+@app.route('/admin-Nembotech/forgot-password')
+def admin_forgot_password_page():
+    """Forgot password page"""
+    return render_template('admin_forgot_password.html')
+
+
+@app.route('/admin-Nembotech/reset-password/<token>')
+def admin_reset_password_page(token):
+    """Reset password page"""
+    return render_template('admin_reset_password.html', token=token)
 
 
 @app.route('/api/health', methods=['GET'])
@@ -375,7 +529,6 @@ def health_check():
 def download_video():
     """Main download endpoint"""
     try:
-        # Log analytics
         log_analytics(
             request.remote_addr,
             request.headers.get('User-Agent', ''),
@@ -392,22 +545,17 @@ def download_video():
 
         url = data['url'].strip()
 
-        # Validate URL
         if 'tiktok.com' not in url:
             return jsonify({
                 'success': False,
                 'message': 'Invalid TikTok URL'
             }), 400
 
-        # Check cache first
         cached_data = get_from_cache(url)
         if cached_data:
             return jsonify(cached_data)
 
-        # Extract video ID
         video_id = extract_video_id(url)
-
-        # Try to download
         result = download_with_ssstik(url)
 
         if not result or not result.get('success'):
@@ -416,7 +564,6 @@ def download_video():
                 'message': 'Could not download video. Please try again.'
             }), 500
 
-        # Add mock statistics if not present
         if 'likes' not in result.get('data', {}):
             result['data'].update({
                 'likes': 125000,
@@ -426,7 +573,6 @@ def download_video():
                 'videoId': video_id
             })
 
-        # Log download
         log_download(
             url,
             video_id,
@@ -434,7 +580,6 @@ def download_video():
             result['data'].get('author', '')
         )
 
-        # Save to cache
         save_to_cache(url, result)
 
         return jsonify(result)
@@ -448,34 +593,29 @@ def download_video():
 
 @app.route('/api/proxy-download', methods=['GET'])
 def proxy_download():
-    """Proxy download through our server - Downloads show YOUR URL!"""
+    """Proxy download through our server"""
     try:
         video_url = request.args.get('url')
 
         if not video_url:
             return jsonify({'error': 'URL required'}), 400
 
-        # Headers to mimic browser
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
             'Referer': 'https://ssstik.io/',
             'Accept': '*/*'
         }
 
-        # Fetch video from external source
         response = requests.get(video_url, headers=headers, stream=True, timeout=30)
 
         if response.status_code == 200:
-            # Determine content type
             content_type = response.headers.get('content-type', 'video/mp4')
 
-            # Generate chunks
             def generate():
                 for chunk in response.iter_content(chunk_size=8192):
                     if chunk:
                         yield chunk
 
-            # Return video with proper headers
             return Response(
                 generate(),
                 mimetype=content_type,
@@ -491,43 +631,6 @@ def proxy_download():
     except Exception as e:
         print(f"Proxy download error: {e}")
         return jsonify({'error': str(e)}), 500
-
-
-@app.route('/api/proxy-image', methods=['GET'])
-def proxy_image():
-    """Proxy thumbnail images through our server - Fixes CORS issues"""
-    try:
-        from flask import redirect
-
-        image_url = request.args.get('url')
-
-        if not image_url:
-            # Return default placeholder
-            return redirect('https://via.placeholder.com/120/667eea/ffffff?text=TikTok')
-
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Referer': 'https://ssstik.io/',
-            'Accept': 'image/*'
-        }
-
-        response = requests.get(image_url, headers=headers, timeout=10)
-
-        if response.status_code == 200:
-            return Response(
-                response.content,
-                mimetype=response.headers.get('content-type', 'image/jpeg'),
-                headers={
-                    'Cache-Control': 'public, max-age=3600',
-                    'Access-Control-Allow-Origin': '*'
-                }
-            )
-        else:
-            return redirect('https://via.placeholder.com/120/667eea/ffffff?text=TikTok')
-
-    except Exception as e:
-        print(f"Image proxy error: {e}")
-        return redirect('https://via.placeholder.com/120/667eea/ffffff?text=TikTok')
 
 
 @app.route('/api/stats', methods=['GET'])
@@ -569,7 +672,6 @@ def admin_login():
         conn = sqlite3.connect('tiktok_downloader.db')
         c = conn.cursor()
 
-        # Get admin from database
         c.execute('SELECT id, password_hash FROM admins WHERE username = ?', (username,))
         admin = c.fetchone()
 
@@ -580,13 +682,11 @@ def admin_login():
                 'message': 'Invalid username or password'
             }), 401
 
-        # Update last login
         c.execute('UPDATE admins SET last_login = ? WHERE id = ?',
                   (datetime.now(), admin[0]))
         conn.commit()
         conn.close()
 
-        # Create JWT token
         token = jwt.encode({
             'admin_id': admin[0],
             'username': username,
@@ -606,27 +706,122 @@ def admin_login():
         }), 500
 
 
-@app.route('/api/admin/verify', methods=['POST'])
-def admin_verify():
-    """Verify admin token"""
+@app.route('/api/admin/forgot-password', methods=['POST'])
+def admin_forgot_password():
+    """Request password reset"""
     try:
-        token = request.headers.get('Authorization', '').replace('Bearer ', '')
+        data = request.get_json()
+        username = data.get('username')
 
-        if not token:
-            return jsonify({'success': False, 'message': 'No token'}), 401
+        if not username:
+            return jsonify({
+                'success': False,
+                'message': 'Username required'
+            }), 400
 
-        payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        conn = sqlite3.connect('tiktok_downloader.db')
+        c = conn.cursor()
+
+        c.execute('SELECT id, email FROM admins WHERE username = ?', (username,))
+        admin = c.fetchone()
+        conn.close()
+
+        if not admin:
+            # Don't reveal if user exists (security)
+            return jsonify({
+                'success': True,
+                'message': 'If the account exists, a reset link has been sent to the registered email.'
+            })
+
+        admin_id, email = admin
+
+        # Generate reset token
+        token = generate_reset_token()
+        reset_tokens[token] = {
+            'admin_id': admin_id,
+            'username': username,
+            'expires': datetime.now() + timedelta(hours=1)
+        }
+
+        # Generate reset link
+        reset_link = url_for('admin_reset_password_page', token=token, _external=True)
+
+        # Send email
+        html_content = get_password_reset_email_html(reset_link, username)
+        email_sent = send_email(email, '🔐 Password Reset Request - TikTok Downloader', html_content)
+
+        if email_sent:
+            return jsonify({
+                'success': True,
+                'message': 'Password reset link sent to your email. Check your inbox!'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Failed to send email. Please contact support.'
+            }), 500
+
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Error: {str(e)}'
+        }), 500
+
+
+@app.route('/api/admin/reset-password', methods=['POST'])
+def admin_reset_password():
+    """Reset password with token"""
+    try:
+        data = request.get_json()
+        token = data.get('token')
+        new_password = data.get('new_password')
+
+        if not token or not new_password:
+            return jsonify({
+                'success': False,
+                'message': 'Token and new password required'
+            }), 400
+
+        # Validate token
+        if token not in reset_tokens:
+            return jsonify({
+                'success': False,
+                'message': 'Invalid or expired reset link'
+            }), 400
+
+        token_data = reset_tokens[token]
+
+        # Check expiration
+        if datetime.now() > token_data['expires']:
+            del reset_tokens[token]
+            return jsonify({
+                'success': False,
+                'message': 'Reset link has expired. Please request a new one.'
+            }), 400
+
+        # Update password
+        conn = sqlite3.connect('tiktok_downloader.db')
+        c = conn.cursor()
+
+        new_hash = generate_password_hash(new_password)
+        c.execute('UPDATE admins SET password_hash = ? WHERE id = ?',
+                  (new_hash, token_data['admin_id']))
+        conn.commit()
+        conn.close()
+
+        # Remove used token
+        del reset_tokens[token]
 
         return jsonify({
             'success': True,
-            'admin_id': payload['admin_id'],
-            'username': payload['username']
+            'message': 'Password reset successful! You can now login with your new password.'
         })
 
-    except jwt.ExpiredSignatureError:
-        return jsonify({'success': False, 'message': 'Token expired'}), 401
-    except jwt.InvalidTokenError:
-        return jsonify({'success': False, 'message': 'Invalid token'}), 401
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Error: {str(e)}'
+        }), 500
 
 
 # ==================== ADMIN PROTECTED ROUTES ====================
@@ -639,27 +834,22 @@ def admin_stats():
         conn = sqlite3.connect('tiktok_downloader.db')
         c = conn.cursor()
 
-        # Total downloads
         c.execute('SELECT SUM(download_count) FROM downloads')
         total_downloads = c.fetchone()[0] or 0
 
-        # Total users
         c.execute('SELECT COUNT(*) FROM users')
         total_users = c.fetchone()[0] or 0
 
-        # Downloads today
         c.execute('''SELECT COUNT(*) FROM analytics 
                     WHERE DATE(timestamp) = DATE('now')''')
         downloads_today = c.fetchone()[0] or 0
 
-        # Top videos
         c.execute('''SELECT title, author, download_count, video_url 
                     FROM downloads 
                     ORDER BY download_count DESC 
                     LIMIT 10''')
         top_videos = c.fetchall()
 
-        # Recent activity
         c.execute('''SELECT ip_address, endpoint, timestamp 
                     FROM analytics 
                     ORDER BY timestamp DESC 
@@ -701,153 +891,6 @@ def admin_stats():
         }), 500
 
 
-@app.route('/api/admin/all-downloads', methods=['GET'])
-@admin_required
-def get_all_downloads():
-    """Get all download records"""
-    try:
-        conn = sqlite3.connect('tiktok_downloader.db')
-        c = conn.cursor()
-
-        c.execute('''SELECT id, video_url, video_id, title, author, 
-                    download_count, last_downloaded 
-                    FROM downloads 
-                    ORDER BY last_downloaded DESC 
-                    LIMIT 100''')
-        downloads = c.fetchall()
-
-        conn.close()
-
-        return jsonify({
-            'success': True,
-            'downloads': [
-                {
-                    'id': d[0],
-                    'url': d[1],
-                    'video_id': d[2],
-                    'title': d[3],
-                    'author': d[4],
-                    'count': d[5],
-                    'last_downloaded': d[6]
-                }
-                for d in downloads
-            ]
-        })
-
-    except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
-
-
-@app.route('/api/admin/analytics', methods=['GET'])
-@admin_required
-def get_analytics():
-    """Get analytics data"""
-    try:
-        conn = sqlite3.connect('tiktok_downloader.db')
-        c = conn.cursor()
-
-        # Week downloads
-        c.execute('''SELECT COUNT(*) FROM analytics 
-                    WHERE timestamp >= datetime('now', '-7 days')''')
-        week_downloads = c.fetchone()[0]
-
-        # Month downloads
-        c.execute('''SELECT COUNT(*) FROM analytics 
-                    WHERE timestamp >= datetime('now', '-30 days')''')
-        month_downloads = c.fetchone()[0]
-
-        # Total unique videos
-        c.execute('SELECT COUNT(*) FROM downloads')
-        total_videos = c.fetchone()[0]
-
-        # Recent activity
-        c.execute('''SELECT ip_address, endpoint, timestamp 
-                    FROM analytics 
-                    ORDER BY timestamp DESC 
-                    LIMIT 20''')
-        recent_activity = c.fetchall()
-
-        conn.close()
-
-        return jsonify({
-            'success': True,
-            'week_downloads': week_downloads,
-            'month_downloads': month_downloads,
-            'total_videos': total_videos,
-            'recent_activity': [
-                {
-                    'ip': a[0],
-                    'endpoint': a[1],
-                    'time': a[2]
-                }
-                for a in recent_activity
-            ]
-        })
-
-    except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
-
-
-@app.route('/api/admin/delete-download/<int:download_id>', methods=['DELETE'])
-@admin_required
-def delete_download_record(download_id):
-    """Delete a download record"""
-    try:
-        conn = sqlite3.connect('tiktok_downloader.db')
-        c = conn.cursor()
-
-        c.execute('DELETE FROM downloads WHERE id = ?', (download_id,))
-        conn.commit()
-        conn.close()
-
-        return jsonify({
-            'success': True,
-            'message': 'Download deleted successfully'
-        })
-
-    except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
-
-
-@app.route('/api/admin/clear-old-data', methods=['POST'])
-@admin_required
-def clear_old_data():
-    """Clear downloads older than 30 days"""
-    try:
-        conn = sqlite3.connect('tiktok_downloader.db')
-        c = conn.cursor()
-
-        c.execute('''DELETE FROM downloads 
-                    WHERE last_downloaded < datetime('now', '-30 days')''')
-        deleted = c.rowcount
-
-        c.execute('''DELETE FROM analytics 
-                    WHERE timestamp < datetime('now', '-30 days')''')
-        deleted += c.rowcount
-
-        conn.commit()
-        conn.close()
-
-        return jsonify({
-            'success': True,
-            'message': f'Deleted {deleted} old records'
-        })
-
-    except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
-
-
-@app.route('/api/clear-cache', methods=['POST'])
-@admin_required
-def clear_cache_endpoint():
-    """Clear server cache"""
-    cache.clear()
-    return jsonify({
-        'success': True,
-        'message': 'Cache cleared successfully'
-    })
-
-
 @app.route('/api/admin/change-password', methods=['POST'])
 @admin_required
 def change_admin_password():
@@ -868,7 +911,6 @@ def change_admin_password():
         conn = sqlite3.connect('tiktok_downloader.db')
         c = conn.cursor()
 
-        # Verify old password
         c.execute('SELECT password_hash FROM admins WHERE id = ?', (admin_id,))
         admin = c.fetchone()
 
@@ -879,7 +921,6 @@ def change_admin_password():
                 'message': 'Invalid old password'
             }), 401
 
-        # Update password
         new_hash = generate_password_hash(new_password)
         c.execute('UPDATE admins SET password_hash = ? WHERE id = ?',
                   (new_hash, admin_id))
@@ -902,7 +943,7 @@ def change_admin_password():
 
 if __name__ == '__main__':
     print("\n" + "=" * 60)
-    print("🚀 STARTING TIKTOK VIDEO DOWNLOADER WITH PROXY")
+    print("🚀 TIKTOK VIDEO DOWNLOADER - SECURE VERSION")
     print("=" * 60 + "\n")
 
     port = int(os.getenv('PORT', 5000))
@@ -910,19 +951,16 @@ if __name__ == '__main__':
     print("\n" + "=" * 60)
     print("✅ SERVER IS RUNNING!")
     print("=" * 60)
-    print(f"\n📱 Main Site (Users):  http://localhost:{port}/")
-    print(f"🔐 Admin Login:        http://localhost:{port}/admin/login")
-    print(f"📊 Admin Dashboard:    http://localhost:{port}/admin")
-    print(f"💚 Health Check:       http://localhost:{port}/api/health")
-    print(f"🔄 Proxy Download:     http://localhost:{port}/api/proxy-download")
+    print(f"\n📱 Main Site:          http://localhost:{port}/")
+    print(f"🔐 Admin Login:        http://localhost:{port}/admin-Nembotech/login")
+    print(f"📊 Admin Dashboard:    http://localhost:{port}/admin-Nembotech")
+    print(f"🔑 Forgot Password:    http://localhost:{port}/admin-Nembotech/forgot-password")
     print("\n" + "-" * 60)
-    print("👤 DEFAULT ADMIN CREDENTIALS:")
+    print("👤 DEFAULT ADMIN:")
     print("-" * 60)
     print("   Username: admin")
     print("   Password: admin123")
-    print("\n⚠️  IMPORTANT: Change password after first login!")
-    print("\n✨ NEW: Videos now download through YOUR server!")
-    print("   Users will see YOUR URL, not external URLs!")
+    print("\n⚠️  CHANGE PASSWORD IMMEDIATELY!")
     print("=" * 60 + "\n")
 
     app.run(host='0.0.0.0', port=port, debug=True)
