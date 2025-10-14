@@ -23,62 +23,79 @@
 
         .login-container {
             background: white;
-            padding: 40px;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 100%;
+            padding: 50px 40px;
             max-width: 400px;
+            width: 100%;
         }
 
-        .login-header {
+        .icon {
             text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .login-header h1 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .login-header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .logo {
             font-size: 60px;
             margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 8px;
-            color: #333;
+            color: #555;
             font-weight: 600;
+            margin-bottom: 8px;
             font-size: 14px;
         }
 
-        .form-group input {
+        input {
             width: 100%;
-            padding: 15px;
+            padding: 14px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 15px;
             transition: all 0.3s;
         }
 
-        .form-group input:focus {
+        input:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .login-btn {
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: 400;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
             width: 100%;
             padding: 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -91,93 +108,111 @@
             transition: all 0.3s;
         }
 
-        .login-btn:hover {
+        .submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        .login-btn:disabled {
+        .submit-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
         }
 
-        .error-message {
-            display: none;
-            padding: 12px;
-            background: #fee;
-            border: 1px solid #fcc;
-            border-radius: 8px;
-            color: #c33;
-            margin-bottom: 20px;
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: #667eea;
+            text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.3s;
         }
 
-        .success-message {
-            display: none;
-            padding: 12px;
-            background: #d1fae5;
-            border: 1px solid #10b981;
-            border-radius: 8px;
-            color: #065f46;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .remember-me input {
-            width: auto;
-            margin-right: 8px;
-        }
-
-        .remember-me label {
-            margin: 0;
-            font-weight: normal;
-            font-size: 14px;
-            color: #666;
+        .forgot-password a:hover {
+            opacity: 0.8;
         }
 
         .back-link {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .back-link a {
             color: #667eea;
             text-decoration: none;
-            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.3s;
         }
 
         .back-link a:hover {
-            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 500px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="login-header">
-            <div class="logo">🔐</div>
-            <h1>Admin Login</h1>
-            <p>Enter your credentials to access the dashboard</p>
-        </div>
+        <div class="icon">🔐</div>
+        <h1>Admin Login</h1>
+        <p class="subtitle">Enter your credentials to access the dashboard</p>
 
         <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
 
-        <form id="loginForm" onsubmit="handleLogin(event)">
+        <form id="loginForm">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input
                     type="text"
                     id="username"
                     name="username"
-                    placeholder="Enter your username"
                     required
+                    placeholder="Enter your username"
+                    autocomplete="username"
                 >
             </div>
 
@@ -187,20 +222,30 @@
                     type="password"
                     id="password"
                     name="password"
-                    placeholder="Enter your password"
                     required
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
                 >
             </div>
 
-            <div class="remember-me">
-                <input type="checkbox" id="rememberMe" name="rememberMe">
-                <label for="rememberMe">Remember me for 30 days</label>
+            <div class="checkbox-group">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me for 30 days</label>
             </div>
 
-            <button type="submit" class="login-btn" id="loginBtn">
+            <button type="submit" class="submit-btn" id="submitBtn">
                 🔓 Login to Dashboard
             </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 10px; color: #666;">Logging in...</p>
+            </div>
         </form>
+
+        <div class="forgot-password">
+            <a href="/admin-Nembotech/forgot-password">🔑 Forgot Password?</a>
+        </div>
 
         <div class="back-link">
             <a href="/">← Back to Home</a>
@@ -208,32 +253,32 @@
     </div>
 
     <script>
-        window.onload = function() {
-            const adminToken = localStorage.getItem('adminToken');
-            if (adminToken) {
-                verifyToken(adminToken);
-            }
-        };
+        const form = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loading = document.getElementById('loading');
+        const errorMessage = document.getElementById('errorMessage');
 
-        async function handleLogin(event) {
-            event.preventDefault();
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
 
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
+            if (!username || !password) {
+                showError('Please enter both username and password');
+                return;
+            }
 
-            const loginBtn = document.getElementById('loginBtn');
-            loginBtn.disabled = true;
-            loginBtn.textContent = '⏳ Logging in...';
+            // Show loading
+            submitBtn.style.display = 'none';
+            loading.style.display = 'block';
+            errorMessage.style.display = 'none';
 
             try {
                 const response = await fetch('/api/admin/login', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         username: username,
@@ -244,63 +289,52 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    if (rememberMe) {
-                        localStorage.setItem('adminToken', data.token);
-                    } else {
-                        sessionStorage.setItem('adminToken', data.token);
-                    }
+                    // Store token
+                    localStorage.setItem('admin_token', data.token);
 
-                    showSuccess('Login successful! Redirecting...');
-
-                    setTimeout(() => {
-                        window.location.href = '/admin';
-                    }, 1000);
+                    // Redirect to admin dashboard - CORRECT URL!
+                    window.location.href = '/admin-Nembotech';
                 } else {
-                    showError(data.message || 'Invalid credentials');
+                    showError(data.message || 'Invalid username or password');
                 }
             } catch (error) {
-                showError('Network error! Please try again.');
+                showError('Network error. Please try again.');
                 console.error('Login error:', error);
             } finally {
-                loginBtn.disabled = false;
-                loginBtn.textContent = '🔓 Login to Dashboard';
+                submitBtn.style.display = 'block';
+                loading.style.display = 'none';
             }
-        }
-
-        async function verifyToken(token) {
-            try {
-                const response = await fetch('/api/admin/verify', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    window.location.href = '/admin';
-                } else {
-                    localStorage.removeItem('adminToken');
-                    sessionStorage.removeItem('adminToken');
-                }
-            } catch (error) {
-                console.error('Token verification error:', error);
-            }
-        }
+        });
 
         function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
         }
 
-        function showSuccess(message) {
-            const successDiv = document.getElementById('successMessage');
-            successDiv.textContent = message;
-            successDiv.style.display = 'block';
-        }
+        // Check if already logged in
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('admin_token');
+            if (token) {
+                // Verify token is still valid
+                fetch('/api/admin/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Already logged in, redirect
+                        window.location.href = '/admin-Nembotech';
+                    }
+                })
+                .catch(() => {
+                    // Token invalid, stay on login page
+                    localStorage.removeItem('admin_token');
+                });
+            }
+        });
     </script>
 </body>
 </html>
