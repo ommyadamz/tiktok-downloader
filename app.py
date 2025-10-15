@@ -490,6 +490,28 @@ def home():
     return render_template('index.html')
 
 
+# ==================== LEGAL PAGES ROUTES ====================
+
+@app.route('/privacy-policy')
+def privacy_policy():
+    """Privacy Policy page"""
+    return render_template('privacy-policy.html')
+
+
+@app.route('/terms')
+def terms():
+    """Terms of Service page"""
+    return render_template('terms.html')
+
+
+@app.route('/contact')
+def contact():
+    """Contact page"""
+    return render_template('contact.html')
+
+
+# ==================== ADMIN PAGES ROUTES ====================
+
 @app.route('/admin-Nembotech/login')
 def admin_login_page():
     """Admin login page - SECURE URL"""
@@ -955,6 +977,9 @@ if __name__ == '__main__':
     print(f"🔐 Admin Login:        http://localhost:{port}/admin-Nembotech/login")
     print(f"📊 Admin Dashboard:    http://localhost:{port}/admin-Nembotech")
     print(f"🔑 Forgot Password:    http://localhost:{port}/admin-Nembotech/forgot-password")
+    print(f"\n📄 Privacy Policy:     http://localhost:{port}/privacy-policy")
+    print(f"📋 Terms of Service:   http://localhost:{port}/terms")
+    print(f"📧 Contact:            http://localhost:{port}/contact")
     print("\n" + "-" * 60)
     print("👤 DEFAULT ADMIN:")
     print("-" * 60)
