@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,6 @@
       gtag('js', new Date());
       gtag('config', 'G-L9ZFQTFR9G');
 
-      // Track downloads
       function trackDownload(action) {
         gtag('event', 'download_click', {
           'event_category': 'Downloads',
@@ -23,9 +22,7 @@
         });
       }
     </script>
-    <!-- End Google Analytics -->
 
-    <!-- FAVICON - Works on all browsers and devices -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230ea5e9' width='100' height='100' rx='20'/><text x='50' y='70' text-anchor='middle' font-size='65' fill='white' font-weight='bold'>T</text></svg>">
 
     <style>
@@ -73,10 +70,15 @@
             height: 28px;
         }
 
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
         .nav-links a {
             color: #64748b;
             text-decoration: none;
-            margin-left: 28px;
             font-weight: 500;
             font-size: 14px;
             transition: color 0.2s;
@@ -84,6 +86,28 @@
 
         .nav-links a:hover {
             color: #0ea5e9;
+        }
+
+        #languageSwitcher {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            color: #0f172a;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        #languageSwitcher:hover {
+            border-color: #0ea5e9;
+        }
+
+        #languageSwitcher:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
         }
 
         .hero {
@@ -573,6 +597,19 @@
                 padding: 35px 18px;
             }
         }
+
+        /* RTL Support */
+        [dir="rtl"] {
+            direction: rtl;
+        }
+
+        [dir="rtl"] .logo {
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .nav-links {
+            flex-direction: row-reverse;
+        }
     </style>
 </head>
 <body>
@@ -584,22 +621,29 @@
                     <path d="M2 17L9 22L16 17" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
                     <path d="M2 12L9 17L16 12" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                TikTok Downloader
+                <span data-translate="site-title">TikTok Downloader</span>
             </div>
             <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#howto">How to Use</a>
-                <a href="#faq">FAQ</a>
-                <a href="/privacy-policy">Privacy Policy</a>
-                <a href="/terms">Terms</a>
-                <a href="/contact">Contact</a>
+                <a href="#features" data-translate="nav-features">Features</a>
+                <a href="#howto" data-translate="nav-howto">How to Use</a>
+                <a href="#faq" data-translate="nav-faq">FAQ</a>
+
+                <select id="languageSwitcher">
+                    <option value="en">🇬🇧 English</option>
+                    <option value="sw">🇹🇿 Kiswahili</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="ar">🇸🇦 العربية</option>
+                    <option value="pt">🇧🇷 Português</option>
+                    <option value="hi">🇮🇳 हिन्दी</option>
+                </select>
             </div>
         </div>
     </nav>
 
     <div class="hero">
-        <h1>Download TikTok Videos</h1>
-        <p>Fast, Free & No Watermark - Save Any TikTok Video Instantly!</p>
+        <h1 data-translate="hero-title">Download TikTok Videos</h1>
+        <p data-translate="hero-subtitle">Fast, Free & No Watermark - Save Any TikTok Video Instantly!</p>
     </div>
 
     <div class="download-section">
@@ -609,16 +653,17 @@
                     type="text"
                     class="url-input"
                     id="videoUrl"
+                    data-translate="input-placeholder"
                     placeholder="Paste TikTok video link here... (https://www.tiktok.com/...)"
                 >
             </div>
             <button class="download-btn" id="downloadBtn" onclick="processVideo()">
-                Download Video
+                <span data-translate="download-btn">Download Video</span>
             </button>
 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p style="margin-top: 10px; color: #64748b; font-weight: 500;">Processing video...</p>
+                <p style="margin-top: 10px; color: #64748b; font-weight: 500;" data-translate="processing">Processing video...</p>
             </div>
 
             <div class="error-message" id="errorMessage"></div>
@@ -642,107 +687,107 @@
     </div>
 
     <div class="features-section" id="features">
-        <h2 class="section-title">Why Choose Our TikTok Downloader?</h2>
+        <h2 class="section-title" data-translate="features-title">Why Choose Our TikTok Downloader?</h2>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
-                <h3>Super Fast</h3>
-                <p>Download TikTok videos in seconds with our lightning-fast servers</p>
+                <h3 data-translate="feature-1-title">Super Fast</h3>
+                <p data-translate="feature-1-desc">Download TikTok videos in seconds with our lightning-fast servers</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">✨</div>
-                <h3>No Watermark</h3>
-                <p>Get clean videos without TikTok logo or watermark</p>
+                <h3 data-translate="feature-2-title">No Watermark</h3>
+                <p data-translate="feature-2-desc">Get clean videos without TikTok logo or watermark</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🎬</div>
-                <h3>HD Quality</h3>
-                <p>Download videos in original high quality MP4 format</p>
+                <h3 data-translate="feature-3-title">HD Quality</h3>
+                <p data-translate="feature-3-desc">Download videos in original high quality MP4 format</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">💯</div>
-                <h3>100% Free</h3>
-                <p>No payments, no subscriptions - completely free forever</p>
+                <h3 data-translate="feature-4-title">100% Free</h3>
+                <p data-translate="feature-4-desc">No payments, no subscriptions - completely free forever</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
-                <h3>Safe & Secure</h3>
-                <p>Your privacy matters - no data collection or storage</p>
+                <h3 data-translate="feature-5-title">Safe & Secure</h3>
+                <p data-translate="feature-5-desc">Your privacy matters - no data collection or storage</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📱</div>
-                <h3>All Devices</h3>
-                <p>Works perfectly on mobile, tablet, and desktop</p>
+                <h3 data-translate="feature-6-title">All Devices</h3>
+                <p data-translate="feature-6-desc">Works perfectly on mobile, tablet, and desktop</p>
             </div>
         </div>
     </div>
 
     <div class="howto-section" id="howto">
         <div class="howto-content">
-            <h2 class="howto-title">How to Download TikTok Videos?</h2>
+            <h2 class="howto-title" data-translate="howto-title">How to Download TikTok Videos?</h2>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <h3>Copy Link</h3>
-                    <p>Open TikTok app, find your video, tap Share button and copy the link</p>
+                    <h3 data-translate="step-1-title">Copy Link</h3>
+                    <p data-translate="step-1-desc">Open TikTok app, find your video, tap Share button and copy the link</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3>Paste URL</h3>
-                    <p>Paste the link into the input field above and click Download button</p>
+                    <h3 data-translate="step-2-title">Paste URL</h3>
+                    <p data-translate="step-2-desc">Paste the link into the input field above and click Download button</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3>Save Video</h3>
-                    <p>Choose your preferred quality and download - it's that simple!</p>
+                    <h3 data-translate="step-3-title">Save Video</h3>
+                    <p data-translate="step-3-desc">Choose your preferred quality and download - it's that simple!</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="faq-section" id="faq">
-        <h2 class="section-title">Frequently Asked Questions</h2>
+        <h2 class="section-title" data-translate="faq-title">Frequently Asked Questions</h2>
 
         <div class="faq-item">
-            <h3>❓ Is this TikTok downloader free?</h3>
-            <p>Yes! Our TikTok downloader is 100% free with no hidden charges, subscriptions, or limitations.</p>
+            <h3 data-translate="faq-1-q">❓ Is this TikTok downloader free?</h3>
+            <p data-translate="faq-1-a">Yes! Our TikTok downloader is 100% free with no hidden charges, subscriptions, or limitations.</p>
         </div>
 
         <div class="faq-item">
-            <h3>❓ Can I download TikTok videos without watermark?</h3>
-            <p>Absolutely! Our service removes the TikTok watermark and logo, giving you clean, high-quality videos.</p>
+            <h3 data-translate="faq-2-q">❓ Can I download TikTok videos without watermark?</h3>
+            <p data-translate="faq-2-a">Absolutely! Our service removes the TikTok watermark and logo, giving you clean, high-quality videos.</p>
         </div>
 
         <div class="faq-item">
-            <h3>❓ Does this work on mobile phones?</h3>
-            <p>Yes! Works perfectly on all devices including iPhone, Android, tablets, and computers.</p>
+            <h3 data-translate="faq-3-q">❓ Does this work on mobile phones?</h3>
+            <p data-translate="faq-3-a">Yes! Works perfectly on all devices including iPhone, Android, tablets, and computers.</p>
         </div>
 
         <div class="faq-item">
-            <h3>❓ Do I need to install any software?</h3>
-            <p>No! This is a web-based tool. Just paste the link and download - no installation needed.</p>
+            <h3 data-translate="faq-4-q">❓ Do I need to install any software?</h3>
+            <p data-translate="faq-4-a">No! This is a web-based tool. Just paste the link and download - no installation needed.</p>
         </div>
 
         <div class="faq-item">
-            <h3>❓ Is it safe to use?</h3>
-            <p>100% safe! We don't store your data or require any personal information. Your privacy is guaranteed.</p>
+            <h3 data-translate="faq-5-q">❓ Is it safe to use?</h3>
+            <p data-translate="faq-5-a">100% safe! We don't store your data or require any personal information. Your privacy is guaranteed.</p>
         </div>
     </div>
 
     <div class="footer">
         <div class="footer-content">
             <div class="footer-links">
-                <a href="#features">Features</a>
-                <a href="#howto">How to Use</a>
-                <a href="#faq">FAQ</a>
-                <a href="/privacy-policy">Privacy Policy</a>
-                <a href="/terms">Terms</a>
-                <a href="/contact">Contact</a>
+                <a href="#features" data-translate="nav-features">Features</a>
+                <a href="#howto" data-translate="nav-howto">How to Use</a>
+                <a href="#faq" data-translate="nav-faq">FAQ</a>
+                <a href="/privacy-policy" data-translate="footer-privacy">Privacy Policy</a>
+                <a href="/terms" data-translate="footer-terms">Terms</a>
+                <a href="/contact" data-translate="footer-contact">Contact</a>
             </div>
 
             <div class="footer-disclaimer">
-                <p>Not affiliated with TikTok, Douyin or ByteDance</p>
-                <p>TikTok Downloader - Your trusted video downloading tool</p>
+                <p data-translate="footer-disclaimer">Not affiliated with TikTok, Douyin or ByteDance</p>
+                <p data-translate="footer-tagline">TikTok Downloader - Your trusted video downloading tool</p>
             </div>
 
             <div class="footer-copyright">
@@ -751,6 +796,402 @@
         </div>
     </div>
 
+    <!-- TRANSLATIONS DATA -->
+    <script>
+const translations = {
+    en: {
+        'site-title': 'TikTok Downloader',
+        'nav-features': 'Features',
+        'nav-howto': 'How to Use',
+        'nav-faq': 'FAQ',
+        'hero-title': 'Download TikTok Videos',
+        'hero-subtitle': 'Fast, Free & No Watermark - Save Any TikTok Video Instantly!',
+        'input-placeholder': 'Paste TikTok video link here... (https://www.tiktok.com/...)',
+        'download-btn': 'Download Video',
+        'processing': 'Processing video...',
+        'features-title': 'Why Choose Our TikTok Downloader?',
+        'feature-1-title': 'Super Fast',
+        'feature-1-desc': 'Download TikTok videos in seconds with our lightning-fast servers',
+        'feature-2-title': 'No Watermark',
+        'feature-2-desc': 'Get clean videos without TikTok logo or watermark',
+        'feature-3-title': 'HD Quality',
+        'feature-3-desc': 'Download videos in original high quality MP4 format',
+        'feature-4-title': '100% Free',
+        'feature-4-desc': 'No payments, no subscriptions - completely free forever',
+        'feature-5-title': 'Safe & Secure',
+        'feature-5-desc': 'Your privacy matters - no data collection or storage',
+        'feature-6-title': 'All Devices',
+        'feature-6-desc': 'Works perfectly on mobile, tablet, and desktop',
+        'howto-title': 'How to Download TikTok Videos?',
+        'step-1-title': 'Copy Link',
+        'step-1-desc': 'Open TikTok app, find your video, tap Share button and copy the link',
+        'step-2-title': 'Paste URL',
+        'step-2-desc': 'Paste the link into the input field above and click Download button',
+        'step-3-title': 'Save Video',
+        'step-3-desc': 'Choose your preferred quality and download - it\'s that simple!',
+        'faq-title': 'Frequently Asked Questions',
+        'faq-1-q': '❓ Is this TikTok downloader free?',
+        'faq-1-a': 'Yes! Our TikTok downloader is 100% free with no hidden charges, subscriptions, or limitations.',
+        'faq-2-q': '❓ Can I download TikTok videos without watermark?',
+        'faq-2-a': 'Absolutely! Our service removes the TikTok watermark and logo, giving you clean, high-quality videos.',
+        'faq-3-q': '❓ Does this work on mobile phones?',
+        'faq-3-a': 'Yes! Works perfectly on all devices including iPhone, Android, tablets, and computers.',
+        'faq-4-q': '❓ Do I need to install any software?',
+        'faq-4-a': 'No! This is a web-based tool. Just paste the link and download - no installation needed.',
+        'faq-5-q': '❓ Is it safe to use?',
+        'faq-5-a': '100% safe! We don\'t store your data or require any personal information. Your privacy is guaranteed.',
+        'footer-privacy': 'Privacy Policy',
+        'footer-terms': 'Terms',
+        'footer-contact': 'Contact',
+        'footer-disclaimer': 'Not affiliated with TikTok, Douyin or ByteDance',
+        'footer-tagline': 'TikTok Downloader - Your trusted video downloading tool'
+    },
+    sw: {
+        'site-title': 'TikTok Downloader',
+        'nav-features': 'Huduma',
+        'nav-howto': 'Jinsi ya Kutumia',
+        'nav-faq': 'Maswali',
+        'hero-title': 'Pakua Video za TikTok',
+        'hero-subtitle': 'Haraka, Bure & Bila Watermark - Pakua Video Yoyote ya TikTok Papo Hapo!',
+        'input-placeholder': 'Weka link ya video ya TikTok hapa... (https://www.tiktok.com/...)',
+        'download-btn': 'Pakua Video',
+        'processing': 'Inachakata video...',
+        'features-title': 'Kwa Nini Uchague TikTok Downloader Yetu?',
+        'feature-1-title': 'Haraka Sana',
+        'feature-1-desc': 'Pakua video za TikTok kwa sekunde chache na server zetu za kasi',
+        'feature-2-title': 'Bila Watermark',
+        'feature-2-desc': 'Pata video safi bila nembo ya TikTok au watermark',
+        'feature-3-title': 'Ubora wa HD',
+        'feature-3-desc': 'Pakua video kwa ubora wa asili wa juu wa MP4',
+        'feature-4-title': '100% Bure',
+        'feature-4-desc': 'Hakuna malipo, hakuna usajili - bure kabisa milele',
+        'feature-5-title': 'Salama & Imara',
+        'feature-5-desc': 'Faragha yako ni muhimu - hakuna kukusanya au kuhifadhi data',
+        'feature-6-title': 'Vifaa Vyote',
+        'feature-6-desc': 'Inafanya kazi vizuri kwenye simu, kompyuta ndogo na desktop',
+        'howto-title': 'Jinsi ya Kupakua Video za TikTok?',
+        'step-1-title': 'Nakili Link',
+        'step-1-desc': 'Fungua app ya TikTok, tafuta video yako, bonyeza kitufe cha Share na nakili link',
+        'step-2-title': 'Weka URL',
+        'step-2-desc': 'Weka link kwenye sehemu ya juu na bonyeza kitufe cha Pakua',
+        'step-3-title': 'Hifadhi Video',
+        'step-3-desc': 'Chagua ubora unaopenda na pakua - ni rahisi hivyo tu!',
+        'faq-title': 'Maswali Yanayoulizwa Mara Kwa Mara',
+        'faq-1-q': '❓ Je, TikTok downloader hii ni bure?',
+        'faq-1-a': 'Ndiyo! TikTok downloader yetu ni 100% bure bila malipo ya kificho, usajili, au vikwazo.',
+        'faq-2-q': '❓ Je, ninaweza kupakua video za TikTok bila watermark?',
+        'faq-2-a': 'Kabisa! Huduma yetu inaondoa watermark na nembo ya TikTok, ikakupa video safi za ubora wa juu.',
+        'faq-3-q': '❓ Je, inafanya kazi kwenye simu?',
+        'faq-3-a': 'Ndiyo! Inafanya kazi vizuri kwenye vifaa vyote ikiwa ni pamoja na iPhone, Android, kompyuta ndogo, na kompyuta.',
+        'faq-4-q': '❓ Je, ninahitaji kusakinisha programu yoyote?',
+        'faq-4-a': 'Hapana! Hii ni chombo cha wavuti. Weka tu link na pakua - hakuna usakinishaji unaohitajika.',
+        'faq-5-q': '❓ Je, ni salama kutumia?',
+        'faq-5-a': '100% salama! Hatuhifadhi data yako au kuhitaji maelezo yako binafsi. Faragha yako imehakikishwa.',
+        'footer-privacy': 'Sera ya Faragha',
+        'footer-terms': 'Masharti',
+        'footer-contact': 'Wasiliana',
+        'footer-disclaimer': 'Hatuunganishwi na TikTok, Douyin au ByteDance',
+        'footer-tagline': 'TikTok Downloader - Chombo chako cha kuaminika cha kupakua video'
+    },
+    fr: {
+        'site-title': 'TikTok Downloader',
+        'nav-features': 'Fonctionnalités',
+        'nav-howto': 'Comment Utiliser',
+        'nav-faq': 'FAQ',
+        'hero-title': 'Télécharger Vidéos TikTok',
+        'hero-subtitle': 'Rapide, Gratuit & Sans Filigrane - Enregistrez N\'importe Quelle Vidéo TikTok Instantanément!',
+        'input-placeholder': 'Collez le lien vidéo TikTok ici... (https://www.tiktok.com/...)',
+        'download-btn': 'Télécharger Vidéo',
+        'processing': 'Traitement de la vidéo...',
+        'features-title': 'Pourquoi Choisir Notre Téléchargeur TikTok?',
+        'feature-1-title': 'Super Rapide',
+        'feature-1-desc': 'Téléchargez des vidéos TikTok en quelques secondes avec nos serveurs ultra-rapides',
+        'feature-2-title': 'Sans Filigrane',
+        'feature-2-desc': 'Obtenez des vidéos propres sans logo TikTok ni filigrane',
+        'feature-3-title': 'Qualité HD',
+        'feature-3-desc': 'Téléchargez des vidéos en format MP4 de haute qualité originale',
+        'feature-4-title': '100% Gratuit',
+        'feature-4-desc': 'Pas de paiement, pas d\'abonnement - complètement gratuit pour toujours',
+        'feature-5-title': 'Sûr et Sécurisé',
+        'feature-5-desc': 'Votre vie privée compte - aucune collecte ni stockage de données',
+        'feature-6-title': 'Tous Appareils',
+        'feature-6-desc': 'Fonctionne parfaitement sur mobile, tablette et ordinateur',
+        'howto-title': 'Comment Télécharger des Vidéos TikTok?',
+        'step-1-title': 'Copier Lien',
+        'step-1-desc': 'Ouvrez l\'application TikTok, trouvez votre vidéo, appuyez sur le bouton Partager et copiez le lien',
+        'step-2-title': 'Coller URL',
+        'step-2-desc': 'Collez le lien dans le champ ci-dessus et cliquez sur le bouton Télécharger',
+        'step-3-title': 'Enregistrer Vidéo',
+        'step-3-desc': 'Choisissez votre qualité préférée et téléchargez - c\'est aussi simple!',
+        'faq-title': 'Questions Fréquemment Posées',
+        'faq-1-q': '❓ Ce téléchargeur TikTok est-il gratuit?',
+        'faq-1-a': 'Oui! Notre téléchargeur TikTok est 100% gratuit sans frais cachés, abonnements ou limitations.',
+        'faq-2-q': '❓ Puis-je télécharger des vidéos TikTok sans filigrane?',
+        'faq-2-a': 'Absolument! Notre service supprime le filigrane et le logo TikTok, vous donnant des vidéos propres de haute qualité.',
+        'faq-3-q': '❓ Cela fonctionne-t-il sur les téléphones mobiles?',
+        'faq-3-a': 'Oui! Fonctionne parfaitement sur tous les appareils y compris iPhone, Android, tablettes et ordinateurs.',
+        'faq-4-q': '❓ Dois-je installer un logiciel?',
+        'faq-4-a': 'Non! C\'est un outil web. Collez simplement le lien et téléchargez - aucune installation nécessaire.',
+        'faq-5-q': '❓ Est-ce sûr à utiliser?',
+        'faq-5-a': '100% sûr! Nous ne stockons pas vos données ni ne demandons d\'informations personnelles. Votre vie privée est garantie.',
+        'footer-privacy': 'Politique de Confidentialité',
+        'footer-terms': 'Conditions',
+        'footer-contact': 'Contact',
+        'footer-disclaimer': 'Non affilié à TikTok, Douyin ou ByteDance',
+        'footer-tagline': 'TikTok Downloader - Votre outil de téléchargement de vidéos de confiance'
+    },
+    es: {
+        'site-title': 'TikTok Downloader',
+        'nav-features': 'Características',
+        'nav-howto': 'Cómo Usar',
+        'nav-faq': 'Preguntas',
+        'hero-title': 'Descargar Videos de TikTok',
+        'hero-subtitle': '¡Rápido, Gratis y Sin Marca de Agua - Guarda Cualquier Video de TikTok al Instante!',
+        'input-placeholder': 'Pega el enlace del video de TikTok aquí... (https://www.tiktok.com/...)',
+        'download-btn': 'Descargar Video',
+        'processing': 'Procesando video...',
+        'features-title': '¿Por Qué Elegir Nuestro Descargador de TikTok?',
+        'feature-1-title': 'Súper Rápido',
+        'feature-1-desc': 'Descarga videos de TikTok en segundos con nuestros servidores ultrarrápidos',
+        'feature-2-title': 'Sin Marca de Agua',
+        'feature-2-desc': 'Obtén videos limpios sin el logo de TikTok ni marca de agua',
+        'feature-3-title': 'Calidad HD',
+        'feature-3-desc': 'Descarga videos en formato MP4 de alta calidad original',
+        'feature-4-title': '100% Gratis',
+        'feature-4-desc': 'Sin pagos, sin suscripciones - completamente gratis para siempre',
+        'feature-5-title': 'Seguro y Protegido',
+        'feature-5-desc': 'Tu privacidad importa - sin recopilación ni almacenamiento de datos',
+        'feature-6-title': 'Todos los Dispositivos',
+        'feature-6-desc': 'Funciona perfectamente en móvil, tableta y computadora',
+        'howto-title': '¿Cómo Descargar Videos de TikTok?',
+        'step-1-title': 'Copiar Enlace',
+        'step-1-desc': 'Abre la app de TikTok, encuentra tu video, toca el botón Compartir y copia el enlace',
+        'step-2-title': 'Pegar URL',
+        'step-2-desc': 'Pega el enlace en el campo de arriba y haz clic en el botón Descargar',
+        'step-3-title': 'Guardar Video',
+        'step-3-desc': 'Elige tu calidad preferida y descarga - ¡es así de simple!',
+        'faq-title': 'Preguntas Frecuentes',
+        'faq-1-q': '❓ ¿Este descargador de TikTok es gratis?',
+        'faq-1-a': '¡Sí! Nuestro descargador de TikTok es 100% gratis sin cargos ocultos, suscripciones o limitaciones.',
+        'faq-2-q': '❓ ¿Puedo descargar videos de TikTok sin marca de agua?',
+        'faq-2-a': '¡Absolutamente! Nuestro servicio elimina la marca de agua y el logo de TikTok, dándote videos limpios de alta calidad.',
+        'faq-3-q': '❓ ¿Funciona en teléfonos móviles?',
+        'faq-3-a': '¡Sí! Funciona perfectamente en todos los dispositivos incluyendo iPhone, Android, tabletas y computadoras.',
+        'faq-4-q': '❓ ¿Necesito instalar algún software?',
+        'faq-4-a': '¡No! Esta es una herramienta web. Solo pega el enlace y descarga - no se necesita instalación.',
+        'faq-5-q': '❓ ¿Es seguro de usar?',
+        'faq-5-a': '¡100% seguro! No almacenamos tus datos ni requerimos información personal. Tu privacidad está garantizada.',
+        'footer-privacy': 'Política de Privacidad',
+        'footer-terms': 'Términos',
+        'footer-contact': 'Contacto',
+        'footer-disclaimer': 'No afiliado a TikTok, Douyin o ByteDance',
+        'footer-tagline': 'TikTok Downloader - Tu herramienta confiable de descarga de videos'
+    },
+    ar: {
+        'site-title': 'تنزيل تيك توك',
+        'nav-features': 'المميزات',
+        'nav-howto': 'كيفية الاستخدام',
+        'nav-faq': 'الأسئلة الشائعة',
+        'hero-title': 'تنزيل مقاطع فيديو TikTok',
+        'hero-subtitle': 'سريع ومجاني وبدون علامة مائية - احفظ أي فيديو تيك توك على الفور!',
+        'input-placeholder': 'الصق رابط فيديو TikTok هنا... (https://www.tiktok.com/...)',
+        'download-btn': 'تنزيل الفيديو',
+        'processing': 'جاري معالجة الفيديو...',
+        'features-title': 'لماذا تختار منصة تنزيل TikTok الخاصة بنا؟',
+        'feature-1-title': 'سريع جداً',
+        'feature-1-desc': 'قم بتنزيل مقاطع فيديو TikTok في ثوانٍ باستخدام خوادمنا فائقة السرعة',
+        'feature-2-title': 'بدون علامة مائية',
+        'feature-2-desc': 'احصل على مقاطع فيديو نظيفة بدون شعار TikTok أو علامة مائية',
+        'feature-3-title': 'جودة عالية HD',
+        'feature-3-desc': 'قم بتنزيل مقاطع الفيديو بتنسيق MP4 بجودة عالية أصلية',
+        'feature-4-title': 'مجاني 100%',
+        'feature-4-desc': 'لا توجد مدفوعات، لا اشتراكات - مجاني تماماً إلى الأبد',
+        'feature-5-title': 'آمن ومحمي',
+        'feature-5-desc': 'خصوصيتك مهمة - لا جمع أو تخزين للبيانات',
+        'feature-6-title': 'جميع الأجهزة',
+        'feature-6-desc': 'يعمل بشكل مثالي على الهاتف المحمول والجهاز اللوحي والكمبيوتر',
+        'howto-title': 'كيفية تنزيل مقاطع فيديو TikTok؟',
+        'step-1-title': 'نسخ الرابط',
+        'step-1-desc': 'افتح تطبيق TikTok، ابحث عن الفيديو الخاص بك، اضغط على زر المشاركة وانسخ الرابط',
+        'step-2-title': 'لصق العنوان',
+        'step-2-desc': 'الصق الرابط في الحقل أعلاه وانقر على زر التنزيل',
+        'step-3-title': 'حفظ الفيديو',
+        'step-3-desc': 'اختر الجودة المفضلة لديك وقم بالتنزيل - إنه بهذه البساطة!',
+        'faq-title': 'الأسئلة الشائعة',
+        'faq-1-q': '❓ هل منصة تنزيل TikTok هذه مجانية؟',
+        'faq-1-a': 'نعم! منصة تنزيل TikTok الخاصة بنا مجانية 100% بدون رسوم خفية أو اشتراكات أو قيود.',
+        'faq-2-q': '❓ هل يمكنني تنزيل مقاطع فيديو TikTok بدون علامة مائية؟',
+        'faq-2-a': 'بالتأكيد! تقوم خدمتنا بإزالة العلامة المائية وشعار TikTok، مما يمنحك مقاطع فيديو نظيفة عالية الجودة.',
+        'faq-3-q': '❓ هل يعمل على الهواتف المحمولة؟',
+        'faq-3-a': 'نعم! يعمل بشكل مثالي على جميع الأجهزة بما في ذلك iPhone و Android والأجهزة اللوحية وأجهزة الكمبيوتر.',
+        'faq-4-q': '❓ هل أحتاج إلى تثبيت أي برنامج؟',
+        'faq-4-a': 'لا! هذه أداة ويب. فقط الصق الرابط وقم بالتنزيل - لا حاجة للتثبيت.',
+        'faq-5-q': '❓ هل استخدامه آمن؟',
+        'faq-5-a': 'آمن 100%! نحن لا نخزن بياناتك ولا نطلب أي معلومات شخصية. خصوصيتك مضمونة.',
+        'footer-privacy': 'سياسة الخصوصية',
+        'footer-terms': 'الشروط',
+        'footer-contact': 'اتصل بنا',
+        'footer-disclaimer': 'غير تابع لـ TikTok أو Douyin أو ByteDance',
+        'footer-tagline': 'TikTok Downloader - أداة تنزيل الفيديو الموثوقة'
+    },
+    pt: {
+        'site-title': 'TikTok Downloader',
+        'nav-features': 'Recursos',
+        'nav-howto': 'Como Usar',
+        'nav-faq': 'Perguntas',
+        'hero-title': 'Baixar Vídeos do TikTok',
+        'hero-subtitle': 'Rápido, Grátis e Sem Marca D\'água - Salve Qualquer Vídeo do TikTok Instantaneamente!',
+        'input-placeholder': 'Cole o link do vídeo do TikTok aqui... (https://www.tiktok.com/...)',
+        'download-btn': 'Baixar Vídeo',
+        'processing': 'Processando vídeo...',
+        'features-title': 'Por Que Escolher Nosso Baixador de TikTok?',
+        'feature-1-title': 'Super Rápido',
+        'feature-1-desc': 'Baixe vídeos do TikTok em segundos com nossos servidores ultrarrápidos',
+        'feature-2-title': 'Sem Marca D\'água',
+        'feature-2-desc': 'Obtenha vídeos limpos sem o logo do TikTok ou marca d\'água',
+        'feature-3-title': 'Qualidade HD',
+        'feature-3-desc': 'Baixe vídeos em formato MP4 de alta qualidade original',
+        'feature-4-title': '100% Grátis',
+        'feature-4-desc': 'Sem pagamentos, sem assinaturas - completamente grátis para sempre',
+        'feature-5-title': 'Seguro e Protegido',
+        'feature-5-desc': 'Sua privacidade importa - sem coleta ou armazenamento de dados',
+        'feature-6-title': 'Todos os Dispositivos',
+        'feature-6-desc': 'Funciona perfeitamente em celular, tablet e computador',
+        'howto-title': 'Como Baixar Vídeos do TikTok?',
+        'step-1-title': 'Copiar Link',
+        'step-1-desc': 'Abra o app do TikTok, encontre seu vídeo, toque no botão Compartilhar e copie o link',
+        'step-2-title': 'Colar URL',
+        'step-2-desc': 'Cole o link no campo acima e clique no botão Baixar',
+        'step-3-title': 'Salvar Vídeo',
+        'step-3-desc': 'Escolha sua qualidade preferida e baixe - é simples assim!',
+        'faq-title': 'Perguntas Frequentes',
+        'faq-1-q': '❓ Este baixador de TikTok é grátis?',
+        'faq-1-a': 'Sim! Nosso baixador de TikTok é 100% grátis sem taxas ocultas, assinaturas ou limitações.',
+        'faq-2-q': '❓ Posso baixar vídeos do TikTok sem marca d\'água?',
+        'faq-2-a': 'Absolutamente! Nosso serviço remove a marca d\'água e o logo do TikTok, dando vídeos limpos de alta qualidade.',
+        'faq-3-q': '❓ Funciona em celulares?',
+        'faq-3-a': 'Sim! Funciona perfeitamente em todos os dispositivos incluindo iPhone, Android, tablets e computadores.',
+        'faq-4-q': '❓ Preciso instalar algum software?',
+        'faq-4-a': 'Não! Esta é uma ferramenta web. Apenas cole o link e baixe - nenhuma instalação necessária.',
+        'faq-5-q': '❓ É seguro usar?',
+        'faq-5-a': '100% seguro! Não armazenamos seus dados nem exigimos informações pessoais. Sua privacidade é garantida.',
+        'footer-privacy': 'Política de Privacidade',
+        'footer-terms': 'Termos',
+        'footer-contact': 'Contato',
+        'footer-disclaimer': 'Não afiliado ao TikTok, Douyin ou ByteDance',
+        'footer-tagline': 'TikTok Downloader - Sua ferramenta confiável de download de vídeos'
+    },
+    hi: {
+        'site-title': 'TikTok Downloader',
+        'nav-features': 'विशेषताएं',
+        'nav-howto': 'उपयोग कैसे करें',
+        'nav-faq': 'सवाल',
+        'hero-title': 'TikTok वीडियो डाउनलोड करें',
+        'hero-subtitle': 'तेज़, मुफ़्त और वॉटरमार्क के बिना - किसी भी TikTok वीडियो को तुरंत सेव करें!',
+        'input-placeholder': 'TikTok वीडियो लिंक यहां पेस्ट करें... (https://www.tiktok.com/...)',
+        'download-btn': 'वीडियो डाउनलोड करें',
+        'processing': 'वीडियो प्रोसेस हो रहा है...',
+        'features-title': 'हमारा TikTok डाउनलोडर क्यों चुनें?',
+        'feature-1-title': 'बहुत तेज़',
+        'feature-1-desc': 'हमारे बिजली-तेज़ सर्वर के साथ सेकंड में TikTok वीडियो डाउनलोड करें',
+        'feature-2-title': 'वॉटरमार्क नहीं',
+        'feature-2-desc': 'TikTok लोगो या वॉटरमार्क के बिना साफ वीडियो प्राप्त करें',
+        'feature-3-title': 'HD गुणवत्ता',
+        'feature-3-desc': 'मूल उच्च गुणवत्ता MP4 प्रारूप में वीडियो डाउनलोड करें',
+        'feature-4-title': '100% मुफ़्त',
+        'feature-4-desc': 'कोई भुगतान नहीं, कोई सदस्यता नहीं - हमेशा के लिए पूरी तरह से मुफ़्त',
+        'feature-5-title': 'सुरक्षित और संरक्षित',
+        'feature-5-desc': 'आपकी गोपनीयता मायने रखती है - कोई डेटा संग्रह या भंडारण नहीं',
+        'feature-6-title': 'सभी डिवाइस',
+        'feature-6-desc': 'मोबाइल, टैबलेट और डेस्कटॉप पर पूरी तरह से काम करता है',
+        'howto-title': 'TikTok वीडियो कैसे डाउनलोड करें?',
+        'step-1-title': 'लिंक कॉपी करें',
+        'step-1-desc': 'TikTok ऐप खोलें, अपना वीडियो ढूंढें, शेयर बटन पर टैप करें और लिंक कॉपी करें',
+        'step-2-title': 'URL पेस्ट करें',
+        'step-2-desc': 'ऊपर इनपुट फ़ील्ड में लिंक पेस्ट करें और डाउनलोड बटन पर क्लिक करें',
+        'step-3-title': 'वीडियो सेव करें',
+        'step-3-desc': 'अपनी पसंदीदा गुणवत्ता चुनें और डाउनलोड करें - यह इतना आसान है!',
+        'faq-title': 'अक्सर पूछे जाने वाले प्रश्न',
+        'faq-1-q': '❓ क्या यह TikTok डाउनलोडर मुफ़्त है?',
+        'faq-1-a': 'हां! हमारा TikTok डाउनलोडर बिना किसी छिपे हुए शुल्क, सदस्यता या सीमाओं के 100% मुफ़्त है।',
+        'faq-2-q': '❓ क्या मैं वॉटरमार्क के बिना TikTok वीडियो डाउनलोड कर सकता हूं?',
+        'faq-2-a': 'बिल्कुल! हमारी सेवा TikTok वॉटरमार्क और लोगो को हटा देती है, आपको साफ, उच्च-गुणवत्ता वाले वीडियो देती है।',
+        'faq-3-q': '❓ क्या यह मोबाइल फोन पर काम करता है?',
+        'faq-3-a': 'हां! iPhone, Android, टैबलेट और कंप्यूटर सहित सभी उपकरणों पर पूरी तरह से काम करता है।',
+        'faq-4-q': '❓ क्या मुझे कोई सॉफ्टवेयर इंस्टॉल करना होगा?',
+        'faq-4-a': 'नहीं! यह एक वेब-आधारित टूल है। बस लिंक पेस्ट करें और डाउनलोड करें - कोई इंस्टॉलेशन की आवश्यकता नहीं।',
+        'faq-5-q': '❓ क्या इसका उपयोग सुरक्षित है?',
+        'faq-5-a': '100% सुरक्षित! हम आपका डेटा स्टोर नहीं करते हैं या कोई व्यक्तिगत जानकारी की आवश्यकता नहीं है। आपकी गोपनीयता की गारंटी है।',
+        'footer-privacy': 'गोपनीयता नीति',
+        'footer-terms': 'शर्तें',
+        'footer-contact': 'संपर्क',
+        'footer-disclaimer': 'TikTok, Douyin या ByteDance से संबद्ध नहीं',
+        'footer-tagline': 'TikTok Downloader - आपका भरोसेमंद वीडियो डाउनलोड टूल'
+    }
+};
+
+// Language Switcher Logic
+function changeLanguage(lang) {
+    localStorage.setItem('preferred-language', lang);
+
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        if (translations[lang] && translations[lang][key]) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = translations[lang][key];
+            } else {
+                element.textContent = translations[lang][key];
+            }
+        }
+    });
+
+    // RTL support for Arabic
+    if (lang === 'ar') {
+        document.documentElement.setAttribute('dir', 'rtl');
+    } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+    }
+
+    // Update HTML lang attribute
+    document.documentElement.setAttribute('lang', lang);
+}
+
+// Auto-detect user language
+function detectUserLanguage() {
+    const userLang = navigator.language.split('-')[0];
+    const savedLang = localStorage.getItem('preferred-language');
+
+    if (savedLang) {
+        return savedLang;
+    } else if (translations[userLang]) {
+        return userLang;
+    }
+    return 'en';
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const languageSwitcher = document.getElementById('languageSwitcher');
+    const detectedLang = detectUserLanguage();
+
+    languageSwitcher.value = detectedLang;
+    changeLanguage(detectedLang);
+
+    languageSwitcher.addEventListener('change', function() {
+        changeLanguage(this.value);
+
+        // Track in Analytics
+        if (typeof gtag === 'function') {
+            gtag('event', 'language_change', {
+                'event_category': 'Language',
+                'event_label': this.value
+            });
+        }
+    });
+});
+    </script>
+
+    <!-- ORIGINAL DOWNLOAD SCRIPT -->
     <script>
         async function processVideo() {
             const urlInput = document.getElementById('videoUrl');
@@ -784,7 +1225,6 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // Track successful video processing
                     if (typeof gtag === 'function') {
                         gtag('event', 'video_processed', {
                             'event_category': 'Video',
