@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TikTok Video Downloader - Download Bila Watermark | Free & Fast</title>
     <meta name="description" content="Download TikTok videos without watermark for free. Fast, easy, and safe. Works on mobile and desktop.">
+
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="manifest" href="/static/site.webmanifest">
+
     <style>
         * {
             margin: 0;
@@ -200,6 +208,7 @@
             border-radius: 8px;
             object-fit: cover;
             border: 1px solid #e2e8f0;
+            background: #e2e8f0;
         }
 
         .video-details {
@@ -769,12 +778,26 @@
 
         function displayResults(data) {
             const thumbnailImg = document.getElementById('thumbnail');
-            const thumbnailUrl = data.thumbnail || 'https://via.placeholder.com/110/0ea5e9/ffffff?text=TikTok';
 
-            thumbnailImg.src = thumbnailUrl;
-            thumbnailImg.onerror = function() {
-                this.src = 'https://via.placeholder.com/110/0ea5e9/ffffff?text=TikTok';
-            };
+            const placeholderSVG = 'data:image/svg+xml,' + encodeURIComponent(`
+                <svg width="110" height="110" xmlns="http://www.w3.org/2000/svg">
+                    <rect fill="#0ea5e9" width="110" height="110" rx="8"/>
+                    <text x="55" y="70" font-size="45" text-anchor="middle" fill="white">🎬</text>
+                </svg>
+            `);
+
+            if (data.thumbnail) {
+                const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(data.thumbnail)}`;
+                thumbnailImg.src = proxyUrl;
+
+                thumbnailImg.onerror = function() {
+                    console.log('Thumbnail proxy failed, using placeholder');
+                    this.src = placeholderSVG;
+                    this.onerror = null;
+                };
+            } else {
+                thumbnailImg.src = placeholderSVG;
+            }
 
             document.getElementById('videoTitle').textContent = data.title || 'TikTok Video';
             document.getElementById('author').textContent = data.author || 'Unknown';
