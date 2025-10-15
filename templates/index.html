@@ -6,6 +6,25 @@
     <title>TikTok Video Downloader - Download Bila Watermark | Free & Fast</title>
     <meta name="description" content="Download TikTok videos without watermark for free. Fast, easy, and safe. Works on mobile and desktop.">
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L9ZFQTFR9G"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L9ZFQTFR9G');
+
+      // Track downloads
+      function trackDownload(action) {
+        gtag('event', 'download_click', {
+          'event_category': 'Downloads',
+          'event_label': action,
+          'value': 1
+        });
+      }
+    </script>
+    <!-- End Google Analytics -->
+
     <!-- FAVICON - Works on all browsers and devices -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230ea5e9' width='100' height='100' rx='20'/><text x='50' y='70' text-anchor='middle' font-size='65' fill='white' font-weight='bold'>T</text></svg>">
 
@@ -759,6 +778,13 @@
                 const data = await response.json();
 
                 if (data.success) {
+                    // Track successful video processing
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'video_processed', {
+                            'event_category': 'Video',
+                            'event_label': 'Success'
+                        });
+                    }
                     displayResults(data.data);
                 } else {
                     showError(data.message || 'Could not download video. Please try again.');
@@ -858,7 +884,7 @@
                             <p>${description}</p>
                         </div>
                     </div>
-                    <button class="download-link" onclick="downloadFile('${proxyUrl}', '${filename}')" id="${downloadId}">
+                    <button class="download-link" onclick="if(typeof trackDownload==='function') trackDownload('${title}'); downloadFile('${proxyUrl}', '${filename}')" id="${downloadId}">
                         Download
                     </button>
                 </div>
